@@ -132,6 +132,6 @@ if organic_file is not None and paid_file is not None:
             data=buffer.getvalue(),
             file_name="monthly_tableau_data.xlsx",
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-            
+        )
     except Exception as e:
         st.error(f"An error occurred: {e}")

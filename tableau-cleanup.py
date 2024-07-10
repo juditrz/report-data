@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 import io
-pip install openpyxl
 
 # Set up the Streamlit app
 st.title("Monthly Report Data Organizer")

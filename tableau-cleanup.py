@@ -11,9 +11,8 @@ organic_file = st.file_uploader("Upload organic data Excel file", type=["xlsx"])
 paid_file = st.file_uploader("Upload paid data Excel file", type=["xlsx"])
 
 # User options
-remove_backslash = st.checkbox("Remove trailing backslash from URLs")
-replace_wix_url = st.checkbox("Replace 'https://wix' with 'https://www.wix'")
-replace_amp = st.checkbox("Replace '/amp/' with '/' in URLs")
+remove_backslash = st.checkbox("Remove trailing backslash from URLs", value=True)
+replace_amp = st.checkbox("Remove amp for URLs", value=True)
 
 if organic_file is not None and paid_file is not None:
     try:
@@ -43,8 +42,6 @@ if organic_file is not None and paid_file is not None:
         merged_df[paid_columns] = merged_df[paid_columns].fillna(0)
 
         # Apply user-selected functions
-        if replace_wix_url:
-            merged_df['Post URL'] = merged_df['Post URL'].replace('https://wix', 'https://www.wix', regex=True)
         if replace_amp:
             merged_df['Post URL'] = merged_df['Post URL'].replace('/amp/', '/', regex=True)
         if remove_backslash:

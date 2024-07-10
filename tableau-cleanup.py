@@ -118,8 +118,19 @@ if organic_file is not None and paid_file is not None:
         # Calculate and display the sum of specific columns
         columns_to_sum = ['Anon total', 'Free total', 'Premium total', 'Collections total']
         sums = result_df[columns_to_sum].sum()
-        st.write("### Overall numbers:")
-        st.write(sums)
+
+        # Rename the index
+        sums.index = ['Anons', 'Frees', 'Premiums', 'Collections']
+
+        # Format the Collections column
+        sums['Collections'] = sums['Collections'].apply(lambda x: f"${int(x):,}")
+
+        st.write("### Monthly data overview")
+        sum_df = pd.DataFrame({
+            "Metric": sums.index,
+            "Total": sums.values
+        })
+        st.write(sum_df)
 
         # Provide a download link for the processed data
         st.write("### Download processed data file")

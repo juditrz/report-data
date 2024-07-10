@@ -122,13 +122,13 @@ if organic_file is not None and paid_file is not None:
         # Rename the index
         sums.index = ['Anons', 'Frees', 'Premiums', 'Collections']
 
-        # Format the Collections column
-        sums['Collections'] = f"${int(sums['Collections']):,}"
+        # Format the columns
+        sums_formatted = sums.apply(lambda x: f"${int(x):,}" if 'Collections' in sums.index[sums == x] else f"{int(x):,}")
 
         st.write("### Monthly data overview")
         sum_df = pd.DataFrame({
             "Metric": sums.index,
-            "Total": sums.values
+            "Total": sums_formatted.values
         })
         st.write(sum_df)
 

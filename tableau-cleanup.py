@@ -115,20 +115,23 @@ if organic_file is not None and paid_file is not None:
         # Sort the DataFrame by 'Anon total' in descending order
         result_df = result_df.sort_values(by='Anon total', ascending=False)
 
-        # Display the final DataFrame
-        st.dataframe(result_df)
+        # Calculate and display the sum of specific columns
+        columns_to_sum = ['Anon total', 'Free total', 'Premium total', 'Collections total']
+        sums = result_df[columns_to_sum].sum()
+        st.write("### Overall numbers:")
+        st.write(sums)
 
-        # Optionally, provide a download link for the processed data
-        st.write("### Download Processed Data")
+        # Provide a download link for the processed data
+        st.write("### Download processed data file")
         buffer = io.BytesIO()
         with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
             result_df.to_excel(writer, index=False)
-            writer.save()
+            writer.close()
         st.download_button(
             label="Download as Excel",
             data=buffer.getvalue(),
             file_name="monthly_tableau_data.xlsx",
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-        )
+            
     except Exception as e:
         st.error(f"An error occurred: {e}")

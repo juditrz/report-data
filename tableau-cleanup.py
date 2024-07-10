@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import io
+pip install openpyxl
 
 # Set up the Streamlit app
 st.title("Monthly Report Data Organizer")
@@ -12,7 +13,7 @@ paid_file = st.file_uploader("Upload paid data Excel file", type=["xlsx"])
 
 # User options
 remove_backslash = st.checkbox("Remove trailing backslash from URLs", value=True)
-replace_amp = st.checkbox("Remove amp for URLs", value=True)
+replace_amp = st.checkbox("Remove AMP from URLs", value=True)
 
 if organic_file is not None and paid_file is not None:
     try:

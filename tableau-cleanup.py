@@ -130,7 +130,7 @@ if organic_file is not None and paid_file is not None:
             "Metric": sums.index,
             "Total": sums_formatted.values
         })
-         st.write(sum_df.to_html(index=False), unsafe_allow_html=True)
+        st.write(sum_df.to_html(index=False), unsafe_allow_html=True)
 
         # Provide a download link for the processed data
         st.write("### Download processed data file")

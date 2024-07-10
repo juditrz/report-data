@@ -42,7 +42,7 @@ if organic_file is not None and paid_file is not None:
         merged_df[paid_columns] = merged_df[paid_columns].fillna(0)
 
         # Apply user-selected functions
-        merged_df['Post URL'] = merged_df['Post URL'].replace('https://wix', 'https://www.wix', regex=True)
+        merged_df['Post URL'] = merged_df['Post URL'].replace('https://wi', 'https://www.wi', regex=True)
         if replace_amp:
             merged_df['Post URL'] = merged_df['Post URL'].replace('/amp/', '/', regex=True)
         if remove_backslash:

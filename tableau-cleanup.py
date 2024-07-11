@@ -11,6 +11,7 @@ organic_file = st.file_uploader("Upload organic data Excel file", type=["xlsx"])
 paid_file = st.file_uploader("Upload paid data Excel file", type=["xlsx"])
 
 # User options
+calculate_sharks = st.checkbox("Calculate Sharks", value=True)
 remove_backslash = st.checkbox("Remove trailing backslash from URLs", value=True)
 replace_amp = st.checkbox("Remove AMP from URLs", value=True)
 
@@ -79,23 +80,24 @@ if organic_file is not None and paid_file is not None:
         result_df['Prem. rate paid'] = result_df['Premium paid'] / result_df['Free paid'].replace(0, pd.NA)
         result_df['Prem. rate avg.'] = result_df['Premium total'] / result_df['Free total'].replace(0, pd.NA)
 
-        # Add new calculated columns to the processed DataFrame
-        result_df['SHARK'] = result_df['Anon total'] * result_df['Free total'] * result_df['Premium total']
-        result_df['$hark'] = result_df['Free total'] * result_df['Premium total']
-        result_df['oShark'] = result_df['Anon organic'] * result_df['Free organic'] * result_df['Premium organic']
-        result_df['pShark'] = result_df['Anon paid'] * result_df['Free paid'] * result_df['Premium paid']
+        if calculate_sharks:
+            # Add new calculated columns to the processed DataFrame
+            result_df['SHARK'] = result_df['Anon total'] * result_df['Free total'] * result_df['Premium total']
+            result_df['$hark'] = result_df['Free total'] * result_df['Premium total']
+            result_df['oShark'] = result_df['Anon organic'] * result_df['Free organic'] * result_df['Premium organic']
+            result_df['pShark'] = result_df['Anon paid'] * result_df['Free paid'] * result_df['Premium paid']
 
-        # Replace the top 50 values in SHARK, $hark, oShark, and pShark with the column name and set others to empty
-        columns_to_process = ['SHARK', '$hark', 'oShark', 'pShark']
-        for column in columns_to_process:
-            # Get the top 50 indices
-            top_indices = result_df[column].nlargest(50).index
-            # Convert the column to object type to allow mixed types
-            result_df[column] = result_df[column].astype(object)
-            # Replace top 50 values with the column name
-            result_df.loc[top_indices, column] = column
-            # Set other values to empty
-            result_df.loc[~result_df.index.isin(top_indices), column] = ''
+            # Replace the top 50 values in SHARK, $hark, oShark, and pShark with the column name and set others to empty
+            columns_to_process = ['SHARK', '$hark', 'oShark', 'pShark']
+            for column in columns_to_process:
+                # Get the top 50 indices
+                top_indices = result_df[column].nlargest(50).index
+                # Convert the column to object type to allow mixed types
+                result_df[column] = result_df[column].astype(object)
+                # Replace top 50 values with the column name
+                result_df.loc[top_indices, column] = column
+                # Set other values to empty
+                result_df.loc[~result_df.index.isin(top_indices), column] = ''
 
         # Define the order of the columns as specified
         ordered_columns = [

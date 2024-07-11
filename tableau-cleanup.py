@@ -80,6 +80,17 @@ if organic_file is not None and paid_file is not None:
         result_df['Prem. rate paid'] = result_df['Premium paid'] / result_df['Free paid'].replace(0, pd.NA)
         result_df['Prem. rate avg.'] = result_df['Premium total'] / result_df['Free total'].replace(0, pd.NA)
 
+        # Define the order of the columns as specified
+        ordered_columns = [
+            'Post URL',
+            'Anon organic', 'Anon paid', 'Anon total',
+            'Free organic', 'Free paid', 'Free total',
+            'Free/Anon organic', 'Free/Anon paid', 'Free/Anon avg.',
+            'Premium organic', 'Premium paid', 'Premium total',
+            'Prem. rate organic', 'Prem. rate paid', 'Prem. rate avg.',
+            'Collections organic', 'Collections paid', 'Collections total',
+        ]
+
         if calculate_sharks:
             # Add new calculated columns to the processed DataFrame
             result_df['SHARK'] = result_df['Anon total'] * result_df['Free total'] * result_df['Premium total']
@@ -98,19 +109,7 @@ if organic_file is not None and paid_file is not None:
                 result_df.loc[top_indices, column] = column
                 # Set other values to empty
                 result_df.loc[~result_df.index.isin(top_indices), column] = ''
-
-        # Define the order of the columns as specified
-        ordered_columns = [
-            'Post URL',
-            'Anon organic', 'Anon paid', 'Anon total',
-            'Free organic', 'Free paid', 'Free total',
-            'Free/Anon organic', 'Free/Anon paid', 'Free/Anon avg.',
-            'Premium organic', 'Premium paid', 'Premium total',
-            'Prem. rate organic', 'Prem. rate paid', 'Prem. rate avg.',
-            'Collections organic', 'Collections paid', 'Collections total',
-            'SHARK', '$hark', 'oShark', 'pShark'
-        ]
-
+                
         # Reorder the columns
         result_df = result_df[ordered_columns]
 

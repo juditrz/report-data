@@ -90,9 +90,6 @@ if organic_file is not None and paid_file is not None:
             'Prem. rate organic', 'Prem. rate paid', 'Prem. rate avg.',
             'Collections organic', 'Collections paid', 'Collections total',
         ]
-                
-        # Reorder the columns
-        result_df = result_df[ordered_columns]
         
         if calculate_sharks:
             # Add new calculated columns to the processed DataFrame
@@ -112,6 +109,9 @@ if organic_file is not None and paid_file is not None:
                 result_df.loc[top_indices, column] = column
                 # Set other values to empty
                 result_df.loc[~result_df.index.isin(top_indices), column] = ''
+                
+            # Add SHARK columns to ordered_columns
+            ordered_columns.extend(['SHARK', '$hark', 'oShark', 'pShark'])
                 
         # Reorder the columns
         result_df = result_df[ordered_columns]

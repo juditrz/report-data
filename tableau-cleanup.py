@@ -90,7 +90,10 @@ if organic_file is not None and paid_file is not None:
             'Prem. rate organic', 'Prem. rate paid', 'Prem. rate avg.',
             'Collections organic', 'Collections paid', 'Collections total',
         ]
-
+                
+        # Reorder the columns
+        result_df = result_df[ordered_columns]
+        
         if calculate_sharks:
             # Add new calculated columns to the processed DataFrame
             result_df['SHARK'] = result_df['Anon total'] * result_df['Free total'] * result_df['Premium total']
